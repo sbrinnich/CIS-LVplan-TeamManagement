@@ -16,7 +16,10 @@ public class Main {
 
         // Create Team Manager
         TeamManager tm = new TeamManager(team, reader);
-        tm.getTeamPlan(team.get(0)).printPlan();
+        tm.generateTotalPlan();
+
+        // Print plan
+        tm.getTotalPlan().printPlanToFile(System.getProperty("user.dir")+"\\html\\lvplan.html");
     }
 
     private static String showPasswordDialog(){

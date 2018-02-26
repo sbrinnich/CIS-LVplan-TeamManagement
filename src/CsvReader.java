@@ -26,7 +26,7 @@ public class CsvReader {
     public void readCsv(LvPlan lvplan) {
         BufferedReader buffer = null;
         String line = "", wholeLine = "";
-        String csvSplitBy = ",", csvEndLine = ",,,,,";
+        String csvSplitBy = ",", csvEndLine = ",\n";
         boolean firstLine = true;
         ArrayList<Integer> hrs;
 
@@ -46,12 +46,14 @@ public class CsvReader {
                 if(firstLine){
                     firstLine = false;
                 }else {
-                    wholeLine += line;
+                    wholeLine += line + "\n";
                     if(wholeLine.endsWith(csvEndLine)) {
                         String[] splitted = wholeLine.replaceAll("\"","").split(csvSplitBy);
                         hrs = getHours(splitted[6], splitted[8]);
+                        String occup = splitted[3];
+                        occup = occup.replace("Stundenplan\n","");
                         for(int hr : hrs){
-                            lvplan.addLv(LocalDate.parse(splitted[5],DateTimeFormatter.ofPattern("dd.MM.uuuu")), hr, splitted[3]);
+                            lvplan.addLv(LocalDate.parse(splitted[5],DateTimeFormatter.ofPattern("dd.MM.uuuu")), hr, occup);
                         }
                         wholeLine = "";
                     }

@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,7 +25,18 @@ public class TeamManager {
     }
 
     public void generateTotalPlan(){
-        // TODO
+        for(String key : teamPlans.keySet()){
+            LvPlan plan = teamPlans.get(key);
+            for(LocalDate day : plan.getDays().keySet()){
+                for(int i = 0; i < 16; i++){
+                    if(plan.getDays().get(day).getOccups(i).size() > 0) {
+                        for(String occ : plan.getDays().get(day).getOccups(i)) {
+                            totalPlan.addLv(day, i, occ);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public LvPlan getTeamPlan(String abbrev){
